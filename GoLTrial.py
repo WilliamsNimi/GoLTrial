@@ -4,9 +4,9 @@
 import numpy as np
 import pandas as pd
 
-ecoSystem = {(0,0): 0, (0,1): 0, (0,2): 0, (0,3): 0,
-             (1,0): 0, (1,1): 0, (1,2): 1, (1,3): 0,
-             (2,0): 0, (2,1): 0, (2,2): 0, (2,3): 1,
+ecoSystem = {(0,0): 0, (0,1): 1, (0,2): 1, (0,3): 0,
+             (1,0): 1, (1,1): 0, (1,2): 1, (1,3): 0,
+             (2,0): 0, (2,1): 0, (2,2): 0, (2,3): 0,
              (3,0): 0, (3,1): 0, (3,2): 1, (3,3): 1}
 
 def generateNeighbours(cell):
@@ -47,11 +47,8 @@ def neighbough_iter(neighs):
     return neighbours_state
 
 def render_board(Board):
-    
-    """
-    This function is supposed to render the board when called. 
-    
-    TO:DO find an optimal way to render this board"""
+    """ This function is supposed to render the board when called. 
+    TO:DO find an optimal way to render this board """
     board_list = []
     row1 = []
     row2 = []
@@ -81,7 +78,10 @@ def render_board(Board):
     df.columns = ["_","_","_","_"]
     print(df)
 
-while(True):
+render_board(ecoSystem)
+
+pos_state_change = True
+while(pos_state_change):
     cell_neighs = []
     neigh_state = []
     for cell, value in ecoSystem.items():
@@ -89,10 +89,18 @@ while(True):
             cell_neighs = generateNeighbours(cell)
             neigh_state = neighbough_iter(cell_neighs)
             if neigh_state[0] < 2 or neigh_state[0] > 3:
+                print("Alive: {}, Cell:{}".format(neigh_state, cell))
                 ecoSystem[cell] = 0
+                pos_state_change = True
+            else:
+                pos_state_change = False
         if value == 0:
             cell_neighs = generateNeighbours(cell)
             neigh_state = neighbough_iter(cell_neighs)
-            if neigh_state[1] == 3:
+            if neigh_state[0] == 3:
+                print("Dead: {}, Cell:{}".format(neigh_state, cell))
                 ecoSystem[cell] = 1
+                pos_state_change = True
+            else:
+                pos_state_change = False
     render_board(ecoSystem)
