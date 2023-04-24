@@ -4,29 +4,33 @@
 import numpy as np
 import pandas as pd
 
-ecoSystem = {(0,0): 0, (0,1): 1, (0,2): 1, (0,3): 0,
-             (1,0): 1, (1,1): 0, (1,2): 1, (1,3): 0,
-             (2,0): 0, (2,1): 0, (2,2): 0, (2,3): 0,
-             (3,0): 0, (3,1): 0, (3,2): 1, (3,3): 1}
+ecoSystem = {(0,0): 0, (0,1): 1, (0,2): 1, (0,3): 0,(0,4): 0, (0,5): 0, (0,6): 1, (0,7): 0,
+             (1,0): 1, (1,1): 0, (1,2): 1, (1,3): 0,(1,4): 1, (1,5): 0, (1,6): 0, (1,7): 0,
+             (2,0): 0, (2,1): 0, (2,2): 0, (2,3): 0,(2,4): 0, (2,5): 0, (2,6): 0, (2,7): 0,
+             (3,0): 0, (3,1): 0, (3,2): 0, (3,3): 1,(3,4): 0, (3,5): 0, (3,6): 1, (3,7): 1,
+             (4,0): 0, (4,1): 0, (4,2): 1, (4,3): 1,(4,4): 0, (4,5): 0, (4,6): 1, (4,7): 0,
+             (5,0): 0, (5,1): 0, (5,2): 0, (5,3): 0,(5,4): 0, (5,5): 0, (5,6): 0, (5,7): 1,
+             (6,0): 0, (6,1): 0, (6,2): 1, (6,3): 1,(6,4): 0, (6,5): 0, (6,6): 1, (6,7): 0,
+             (7,0): 0, (7,1): 0, (7,2): 1, (7,3): 0,(7,4): 0, (7,5): 0, (7,6): 0, (7,7): 0}
 
 def generateNeighbours(cell):
     """Generate the neighbours associated with a cell"""
     list_neighs = []
-    if cell[0] - 1 >= 0 and cell[0] - 1 <= 3:
+    if cell[0] - 1 >= 0 and cell[0] - 1 <= 7:
         list_neighs.append((cell[0] - 1, cell[1]))
-    if cell[1] - 1 >= 0 and cell[1] - 1 <= 3:
+    if cell[1] - 1 >= 0 and cell[1] - 1 <= 7:
         list_neighs.append((cell[0], cell[1] - 1))
-    if cell[1] + 1 >= 0 and cell[1] + 1 <= 3:
+    if cell[1] + 1 >= 0 and cell[1] + 1 <= 7:
         list_neighs.append((cell[0], cell[1] + 1))
-    if cell[0] + 1 >= 0 and cell[0] + 1 <= 3:
+    if cell[0] + 1 >= 0 and cell[0] + 1 <= 7:
         list_neighs.append((cell[0] + 1, cell[1]))
-    if (cell[0] - 1 >= 0 and cell[0] - 1 <= 3) and (cell[1] - 1 >= 0 and cell[1] - 1 <= 3):
+    if (cell[0] - 1 >= 0 and cell[0] - 1 <= 7) and (cell[1] - 1 >= 0 and cell[1] - 1 <= 7):
         list_neighs.append((cell[0] - 1, cell[1] - 1))
-    if (cell[0] + 1 >= 0 and cell[0] + 1 <= 3) and (cell[1] + 1 >= 0 and cell[1] + 1 <= 3):
+    if (cell[0] + 1 >= 0 and cell[0] + 1 <= 7) and (cell[1] + 1 >= 0 and cell[1] + 1 <= 7):
         list_neighs.append((cell[0] + 1, cell[1] + 1))
-    if (cell[0] + 1 >= 0 and cell[0] + 1 <= 3) and (cell[1] - 1 >= 0 and cell[1] - 1 <= 3):
+    if (cell[0] + 1 >= 0 and cell[0] + 1 <= 7) and (cell[1] - 1 >= 0 and cell[1] - 1 <= 7):
         list_neighs.append((cell[0] + 1, cell[1] - 1))
-    if (cell[0] - 1 >= 0 and cell[0] - 1 <= 3) and (cell[1] + 1 >= 0 and cell[1] + 1 <= 3):
+    if (cell[0] - 1 >= 0 and cell[0] - 1 <= 7) and (cell[1] + 1 >= 0 and cell[1] + 1 <= 7):
         list_neighs.append((cell[0] - 1, cell[1] + 1))
     return list_neighs
 
@@ -54,28 +58,44 @@ def render_board(Board):
     row2 = []
     row3 = []
     row4 = []
+    row5 = []
+    row6 = []
+    row7 = []
+    row8 = []
     count = 0
     for key, values in Board.items():
         board_list.append(values)
     for elements in board_list:
-        if(count < 4):
+        if(count < 8):
             row1.append(elements)
             count+=1
-        elif(count>=4 and count <8):
+        elif(count>=8 and count <16):
             row2.append(elements)
             count+=1
-        elif(count>=8 and count <12):
+        elif(count>=16 and count <24):
             row3.append(elements)
             count+=1
-        elif(count>=12 and count<16):
+        elif(count>=24 and count<32):
             row4.append(elements)
             count+=1
+        elif(count>=32 and count <40):
+            row5.append(elements)
+            count+=1
+        elif(count>=40 and count <48):
+            row6.append(elements)
+            count+=1
+        elif(count>=48 and count<56):
+            row7.append(elements)
+            count+=1
+        elif(count>=56 and count<64):
+            row8.append(elements)
+            count+=1
     
-    board_array = np.array([row1, row2, row3, row4], dtype=object)
+    board_array = np.array([row1, row2, row3, row4, row5, row6, row7, row8], dtype=object)
     
     df = pd.DataFrame(board_array)
-    df.index = ["|","|","|","|"]
-    df.columns = ["_","_","_","_"]
+    df.index = ["|","|","|","|","|","|","|","|"]
+    df.columns = ["_","_","_","_","_","_","_","_"]
     print(df)
 
 render_board(ecoSystem)
